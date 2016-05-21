@@ -1,9 +1,9 @@
 // Binary search tree implementation from
 // https://github.com/raywenderlich/swift-algorithm-club
-public enum Tree<T: Comparable> {
+public enum BinarySearchTree<T: Comparable> {
   case Empty
   case Leaf(T)
-  indirect case Node(Tree, T, Tree)
+  indirect case Node(BinarySearchTree, T, BinarySearchTree)
 
   public var count: Int {
     switch self {
@@ -21,7 +21,7 @@ public enum Tree<T: Comparable> {
     }
   }
 
-  public func insert(newItem: T) -> Tree {
+  public func insert(newItem: T) -> BinarySearchTree {
     switch self {
     case .Empty:
       return .Leaf(newItem)
@@ -40,7 +40,7 @@ public enum Tree<T: Comparable> {
     }
   }
 
-  public func search(item: T) -> Tree? {
+  public func search(item: T) -> BinarySearchTree? {
     switch self {
     case .Empty: return nil
     case let .Leaf(treeItem) where item == treeItem: return self
