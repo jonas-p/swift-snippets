@@ -1,3 +1,5 @@
+// Binary search tree implementation from
+// https://github.com/raywenderlich/swift-algorithm-club
 public enum Tree<T: Comparable> {
   case Empty
   case Leaf(T)

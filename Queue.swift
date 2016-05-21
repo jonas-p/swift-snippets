@@ -1,4 +1,5 @@
-// Queue implementation
+// Queue implementation from
+// https://github.com/raywenderlich/swift-algorithm-club
 public struct Queue<T> {
   private var items = [T?]()
   private var head = 0

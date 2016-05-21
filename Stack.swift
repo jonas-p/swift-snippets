@@ -1,4 +1,5 @@
-// Stack implementation
+// Stack implementation from
+// https://github.com/raywenderlich/swift-algorithm-club
 public struct Stack<T> {
   private var items = [T]()
 
