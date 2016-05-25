@@ -1,34 +1,57 @@
 // Linked List implementation
-class List<T> : CustomStringConvertible {
-  var value: T
-  var next: List<T>?
 
-  init(item: T) {
+private class Node<T> {
+  var value: T
+  var next: Node?
+
+  init(_ item: T) {
     self.value = item
   }
+}
 
-  init!(items: Array<T>) {
-    guard let first = items.first else { return nil }
-    self.value = first
+class LinkedList<T> {
+  private var head: Node<T>?
 
-    var prev:List<T> = self
-    for item in items[1..<items.count] {
-      prev.next = List(item: item)
-      prev = prev.next!
+  var isEmpty: Bool {
+    return head == nil
+  }
+
+  convenience init(_ items: T...) {
+    self.init(fromArray: Array(items))
+  }
+
+  init(fromArray items: [T]) {
+    if items.count > 0 {
+      head = Node(items.first!)
+
+      var current = head!
+      for item in items[1..<items.count] {
+        current.next = Node(item)
+        current = current.next!
+      }
     }
   }
 
-  func toArray() -> [T] {
-    var arr = [T]()
-    var current:List<T>? = self
-    while let c = current {
-      arr.append(c.value)
-      current = c.next
+  func reverse() {
+    var prev:Node<T>? = nil
+    while let current = head {
+      head = current.next
+      current.next = prev
+      prev = current
     }
-    return arr
+    head = prev
   }
+}
 
+extension LinkedList: CustomStringConvertible {
   var description: String {
-    return String(self.toArray())
+    var str = ""
+    var current = head
+    while let node = current {
+      str += "\(node.value)"
+      current = node.next
+      if current != nil { str += ", " }
+    }
+    return "[" + str + "]"
   }
 }
