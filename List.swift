@@ -87,6 +87,27 @@ class LinkedList<T> {
     }
     return nil
   }
+
+}
+
+extension LinkedList where T: Equatable {
+  // Find whether the list is a palindrome (uses recursion)
+  func isPalindrome() -> Bool {
+    var head = self.head
+    return isPalindromeRecursive(&head, head)
+  }
+
+  private func isPalindromeRecursive(inout left: Node<T>?, _ right: Node<T>?) -> Bool {
+    guard let right = right else { return true }
+
+    if !isPalindromeRecursive(&left, right.next) {
+      return false
+    }
+
+    let res = left!.value == right.value
+    left = left!.next
+    return res
+  }
 }
 
 extension LinkedList: CustomStringConvertible {
