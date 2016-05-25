@@ -16,6 +16,37 @@ class LinkedList<T> {
     return head == nil
   }
 
+  // Find the last element in the list.
+  var last: T? {
+    var last = head
+    while let node = last?.next {
+      last = node
+    }
+    return last?.value
+  }
+
+  // Find the last but one element in the list.
+  var pennultimate: T? {
+    if head?.next == nil { return nil }
+
+    var pen = head
+    while pen?.next?.next != nil {
+      pen = pen?.next
+    }
+    return pen?.value
+  }
+
+  // Number of elements contained in the list.
+  var length: Int {
+    var length = 0
+    var current = head
+    while let node = current {
+      current = node.next
+      length += 1
+    }
+    return length
+  }
+
   convenience init(_ items: T...) {
     self.init(fromArray: Array(items))
   }
@@ -32,6 +63,7 @@ class LinkedList<T> {
     }
   }
 
+  // Reverses the list
   func reverse() {
     var prev:Node<T>? = nil
     while let current = head {
@@ -40,6 +72,20 @@ class LinkedList<T> {
       prev = current
     }
     head = prev
+  }
+
+  // Find the Kth element in the list
+  subscript(index: Int) -> T? {
+    var i = 0
+    var current = head
+    while let node = current {
+      if i == index {
+        return node.value
+      }
+      current = node.next
+      i += 1
+    }
+    return nil
   }
 }
 
