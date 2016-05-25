@@ -88,23 +88,23 @@ class LinkedList<T> {
     return nil
   }
 
-  func flatten() -> LinkedList<T> {
-    func walk(list: LinkedList<T>, _ f: (node: Node<T>) -> Void) {
-      var current = list.head
-      while let node = current {
-        switch node.value {
-        case let rlist as LinkedList:
-          walk(rlist, f)
-        default:
-          f(node: node)
-        }
-        current = node.next
+  private func flatWalk(f: (node: Node<T>) -> Void) {
+    var current = head
+    while let node = current {
+      switch node.value {
+      case let rlist as LinkedList:
+        rlist.flatWalk(f)
+      default:
+        f(node: node)
       }
+      current = node.next
     }
+  }
 
+  func flatten() -> LinkedList<T> {
     let res = LinkedList<T>()
     var current:Node<T>? = nil
-    walk(self) {
+    flatWalk() {
       if let _ = current {
         current!.next = $0
         current = current!.next
