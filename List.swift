@@ -88,6 +88,41 @@ class LinkedList<T> {
     return nil
   }
 
+  func flatten() -> LinkedList<T> {
+    func walk(list: LinkedList<T>, _ f: (node: Node<T>) -> Void) {
+      var current = list.head
+      while let node = current {
+        switch node.value {
+        case let rlist as LinkedList:
+          walk(rlist, f)
+        default:
+          f(node: node)
+        }
+        current = node.next
+      }
+    }
+
+    let res = LinkedList<T>()
+    var current:Node<T>? = nil
+    walk(self) {
+      if let _ = current {
+        current!.next = $0
+        current = current!.next
+      } else {
+        current = $0
+        res.head = current
+      }
+    }
+    return res
+  }
+
+  func map(f: (value: T) -> T) {
+    var current = head
+    while let node = current {
+      node.value = f(value: node.value)
+      current = node.next
+    }
+  }
 }
 
 extension LinkedList where T: Equatable {
