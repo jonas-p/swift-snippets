@@ -105,9 +105,9 @@ class LinkedList<T> {
     let res = LinkedList<T>()
     var current:Node<T>? = nil
     flatWalk() {
-      if let _ = current {
-        current!.next = $0
-        current = current!.next
+      if let node = current {
+        node.next = $0
+        current = node.next
       } else {
         current = $0
         res.head = current
