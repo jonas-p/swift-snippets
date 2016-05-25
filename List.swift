@@ -116,6 +116,44 @@ class LinkedList<T> {
     return res
   }
 
+  // A non-recursive method of flatten
+  func flatten2() -> LinkedList<T> {
+    let res = LinkedList<T>()
+    // create a stack and add current head to it
+    var stack:[Node<T>?] = [head]
+    // last keeps track of the last element in the result list
+    var last:Node<T>? = nil
+
+    stackLoop: while !stack.isEmpty {
+      // work last added node
+      while let node = stack.last! {
+        // move node inside the stack
+        stack[stack.endIndex - 1] = node.next
+        if let list = node.value as? LinkedList {
+          // the node is another list, add it to the stack and
+          // break so we start working on it immediately
+          stack.append(list.head)
+          continue stackLoop
+        }
+        // if it's not a list, append it to our result list
+        if last == nil {
+          // first element fix
+          res.head = node
+          last = res.head
+        } else {
+          last!.next = node
+          last = last!.next
+        }
+      }
+      // top of the stack is now nil so remove it
+      // in other words, we have reached the end on the
+      // list we are currently working on
+      stack.removeLast()
+    }
+
+    return res
+  }
+
   func map(f: (value: T) -> T) {
     var current = head
     while let node = current {
