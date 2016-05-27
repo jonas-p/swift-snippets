@@ -181,6 +181,57 @@ extension LinkedList where T: Equatable {
     left = left!.next
     return res
   }
+
+  // Eliminate consecutive duplicates
+  func compress() {
+    var current = head
+    while let node = current {
+      // consume all consecutive duplicates
+      var dup = node
+      while let next = dup.next {
+        if next.value != node.value {
+          break
+        }
+        dup = next
+      }
+      node.next = dup.next
+      current = node.next
+    }
+  }
+
+  // Pack consecutive duplicates into sub lists
+  func pack() -> LinkedList<LinkedList<T>> {
+    let res = LinkedList<LinkedList<T>>()
+    var resCurrent = res.head
+    var current = head
+    while let node = current {
+      // Initialize sub list
+      let sub = LinkedList<T>()
+      sub.head = node
+
+      // Consume all consecutive duplicates
+      var subCurrent = sub.head
+      while let subnext = subCurrent!.next {
+        if subnext.value != sub.head!.value {
+          break
+        }
+        subCurrent = subnext
+      }
+
+      // Add sublist to list
+      if let last = resCurrent {
+        last.next = Node(sub)
+        resCurrent = last.next
+      } else {
+        res.head = Node(sub)
+        resCurrent = res.head
+      }
+
+      current = subCurrent!.next
+      subCurrent!.next = nil
+    }
+    return res
+  }
 }
 
 extension LinkedList: CustomStringConvertible {
